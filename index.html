@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>PNEI — Le basi in 3 lezioni</title>
+<style>
+  :root {
+    --bg: #0b1220;
+    --bg-alt: #101a2e;
+    --text: #f4f6fb;
+    --text-muted: #aab4c8;
+    --nervoso: #4C8DFF;
+    --endocrino: #FF9E4C;
+    --immunitario: #4CD97B;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    line-height: 1.5;
+  }
+  .hero {
+    background: linear-gradient(135deg, var(--bg) 0%, var(--bg-alt) 100%);
+    padding: 96px 24px 72px;
+    text-align: center;
+  }
+  .hero .eyebrow {
+    color: var(--nervoso);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+  .hero h1 {
+    font-size: clamp(32px, 5vw, 56px);
+    font-weight: 700;
+    margin: 0 0 20px;
+  }
+  .hero p {
+    color: var(--text-muted);
+    font-size: 19px;
+    max-width: 640px;
+    margin: 0 auto;
+  }
+  .badges {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 32px;
+    flex-wrap: wrap;
+  }
+  .badge {
+    font-size: 13px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.15);
+    color: var(--text-muted);
+  }
+  main {
+    max-width: 1040px;
+    margin: 0 auto;
+    padding: 48px 24px 96px;
+  }
+  .lesson {
+    background: var(--bg-alt);
+    border-radius: 20px;
+    padding: 32px;
+    margin-bottom: 40px;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+  .lesson-header {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+  }
+  .lesson-number {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--endocrino);
+  }
+  .lesson h2 {
+    font-size: 26px;
+    margin: 0;
+  }
+  .lesson-sub {
+    color: var(--text-muted);
+    font-size: 16px;
+    margin: 0 0 24px;
+  }
+  video {
+    width: 100%;
+    border-radius: 12px;
+    background: #000;
+    display: block;
+  }
+  .disclaimer {
+    max-width: 1040px;
+    margin: 0 auto 80px;
+    padding: 0 24px;
+    color: var(--text-muted);
+    font-size: 14px;
+    text-align: center;
+  }
+  .disclaimer strong { color: var(--text); }
+  footer {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 13px;
+    padding: 24px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="eyebrow">Corso introduttivo</div>
+  <h1>PNEI — Le basi in 3 lezioni</h1>
+  <p>Un percorso divulgativo su psiconeuroendocrinoimmunologia: come mente, sistema nervoso, ormoni e difese immunitarie comunicano costantemente tra loro.</p>
+  <div class="badges">
+    <span class="badge">3 lezioni · ~4 min l'una</span>
+    <span class="badge">Sottotitoli inclusi</span>
+    <span class="badge">Demo dimostrativa</span>
+  </div>
+</section>
+
+<main>
+  <article class="lesson">
+    <div class="lesson-header">
+      <span class="lesson-number">Lezione 1</span>
+      <h2>Cos'è la PNEI</h2>
+    </div>
+    <p class="lesson-sub">Il dialogo nascosto tra mente e corpo: cosa significa PNEI, da dove nasce, perché conta.</p>
+    <video controls preload="metadata" poster="posters/lesson1.jpg">
+      <source src="videos/lesson1.mp4" type="video/mp4" />
+    </video>
+  </article>
+
+  <article class="lesson">
+    <div class="lesson-header">
+      <span class="lesson-number">Lezione 2</span>
+      <h2>L'asse HPA e lo stress cronico</h2>
+    </div>
+    <p class="lesson-sub">Come il corpo risponde allo stress — e cosa cambia quando la risposta non si spegne più.</p>
+    <video controls preload="metadata" poster="posters/lesson2.jpg">
+      <source src="videos/lesson2.mp4" type="video/mp4" />
+    </video>
+  </article>
+
+  <article class="lesson">
+    <div class="lesson-header">
+      <span class="lesson-number">Lezione 3</span>
+      <h2>Le citochine e il dialogo immuno-cervello</h2>
+    </div>
+    <p class="lesson-sub">Perché ci sentiamo così quando siamo malati, e una sintesi di tutto il percorso.</p>
+    <video controls preload="metadata" poster="posters/lesson3.jpg">
+      <source src="videos/lesson3.mp4" type="video/mp4" />
+    </video>
+  </article>
+</main>
+
+<p class="disclaimer">
+  <strong>Nota:</strong> contenuto informativo e divulgativo a scopo dimostrativo. Non costituisce parere medico e non sostituisce la consulenza di un professionista sanitario qualificato.
+</p>
+
+<footer>
+  Demo prodotta con pipeline 100% automatizzata (script → voce AI → grafica generata via codice → video). Nessuna ripresa, nessun editing manuale.
+</footer>
+
+</body>
+</html>
