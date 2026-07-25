@@ -120,20 +120,24 @@
   @keyframes shake { 0%,100%{transform:translateX(0);} 20%{transform:translateX(-8px);} 40%{transform:translateX(7px);} 60%{transform:translateX(-5px);} 80%{transform:translateX(3px);} }
 
   .gate-footnote { margin-top: 1.7rem; font-size: .72rem; color: rgba(170,180,200,.6); }
-  .gate.hidden { display: none; }
 
-  /* ===================== TRANSIZIONE ===================== */
-  .reveal {
-    position: fixed; inset: 0; z-index: 60; pointer-events: none; opacity: 0;
-    background: radial-gradient(circle at var(--ox,50%) var(--oy,50%), var(--immunitario) 0%, var(--nervoso) 28%, transparent 62%);
-    clip-path: circle(0% at var(--ox,50%) var(--oy,50%));
+  /* ===================== TRANSIZIONE — dissolvenza incrociata ===================== */
+  #gate {
+    transition: opacity .9s ease, filter .9s ease;
   }
-  .reveal.playing { animation: iris 1.1s cubic-bezier(.65,0,.2,1) forwards; }
-  @keyframes iris {
-    0% { clip-path: circle(0% at var(--ox,50%) var(--oy,50%)); opacity: 1; }
-    55% { clip-path: circle(75% at var(--ox,50%) var(--oy,50%)); opacity: 1; }
-    100% { clip-path: circle(150% at var(--ox,50%) var(--oy,50%)); opacity: 0; }
+  #gate.fade-out {
+    opacity: 0;
+    filter: blur(10px);
+    pointer-events: none;
   }
+  #gate.hidden { display: none; }
+
+  #content {
+    opacity: 0;
+    transition: opacity 1.1s ease;
+  }
+  #content.visible { opacity: 1; }
+  #content.no-anim { transition: none; }
 
   /* ===================== CONTENUTO ESISTENTE ===================== */
   #content.entering .hero > * { animation: rise-in .8s cubic-bezier(.16,1,.3,1) both; }
@@ -231,13 +235,6 @@
     text-align: center;
   }
   .disclaimer strong { color: var(--text); }
-  footer {
-    text-align: center;
-    color: var(--text-muted);
-    font-size: 13px;
-    padding: 24px;
-    border-top: 1px solid rgba(255,255,255,0.06);
-  }
 </style>
 </head>
 <body>
@@ -274,9 +271,6 @@
     <p class="gate-footnote">Link e credenziali sono personali: ti chiediamo di non condividerli.</p>
   </div>
 </div>
-
-<!-- ============ VELO DI TRANSIZIONE ============ -->
-<div id="reveal" class="reveal" aria-hidden="true"></div>
 
 <!-- ============ CONTENUTO REALE ============ -->
 <div id="content" hidden>
@@ -331,10 +325,6 @@
   <strong>Nota:</strong> contenuto informativo e divulgativo a scopo dimostrativo. Non costituisce parere medico e non sostituisce la consulenza di un professionista sanitario qualificato.
 </p>
 
-<footer>
-  Demo prodotta con pipeline 100% automatizzata (script → voce AI → grafica generata via codice → video). Nessuna ripresa, nessun editing manuale.
-</footer>
-
 </div>
 
 <script>
@@ -367,22 +357,29 @@ function spawnParticles() {
 }
 
 function showContent(instant) {
-  document.getElementById("gate").classList.add("hidden");
+  const gate = document.getElementById("gate");
   const content = document.getElementById("content");
+  gate.classList.add("hidden");
   content.hidden = false;
-  if (!instant) content.classList.add("entering");
+  if (instant) {
+    content.classList.add("no-anim", "visible");
+  } else {
+    content.classList.add("entering");
+  }
 }
 
-function playReveal(originEvent) {
-  const reveal = document.getElementById("reveal");
-  const rect = originEvent?.target?.getBoundingClientRect?.();
-  const ox = rect ? ((rect.left + rect.width / 2) / window.innerWidth) * 100 : 50;
-  const oy = rect ? ((rect.top + rect.height / 2) / window.innerHeight) * 100 : 50;
-  reveal.style.setProperty("--ox", ox + "%");
-  reveal.style.setProperty("--oy", oy + "%");
-  reveal.classList.add("playing");
-  showContent(false);
-  setTimeout(() => reveal.classList.remove("playing"), 1200);
+function crossfade() {
+  const gate = document.getElementById("gate");
+  const content = document.getElementById("content");
+
+  content.hidden = false;
+  content.classList.add("entering");
+  // forza il reflow prima di far scattare le due transizioni CSS in parallelo
+  void content.offsetWidth;
+  content.classList.add("visible");
+  gate.classList.add("fade-out");
+
+  setTimeout(() => gate.classList.add("hidden"), 950);
 }
 
 async function checkPassword(user, pass) {
@@ -410,7 +407,7 @@ async function checkPassword(user, pass) {
     if (ok) {
       sessionStorage.setItem(SESSION_KEY, "1");
       gate.classList.remove("show-error");
-      playReveal(e.submitter || e.target.querySelector(".gate-btn"));
+      crossfade();
     } else {
       gate.classList.add("show-error", "shake");
       setTimeout(() => gate.classList.remove("shake"), 420);
